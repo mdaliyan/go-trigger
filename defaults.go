@@ -1,15 +1,13 @@
 package trigger
 
-import "reflect"
-
 type Trigger interface {
 	On(event string, task interface{}) error
-	Fire(event string, params ...interface{}) ([]reflect.Value, error)
-	FireBackground(event string, params ...interface{}) (chan []reflect.Value, error)
+	Fire(event string, params ...interface{}) (error)
+	FireBackground(event string, params ...interface{}) (error)
 	Clear(event string) error
 	ClearEvents()
 	HasEvent(event string) bool
-	Events() []string
+	Events() map[string]string
 	EventCount() int
 }
 
@@ -20,11 +18,11 @@ func On(event string, task interface{}) error {
 	return defaultTrigger.On(event, task)
 }
 
-func Fire(event string, params ...interface{}) ([]reflect.Value, error) {
+func Fire(event string, params ...interface{}) (error) {
 	return defaultTrigger.Fire(event, params...)
 }
 
-func FireBackground(event string, params ...interface{}) (chan []reflect.Value, error) {
+func FireBackground(event string, params ...interface{}) (error) {
 	return defaultTrigger.FireBackground(event, params...)
 }
 
@@ -40,7 +38,7 @@ func HasEvent(event string) bool {
 	return defaultTrigger.HasEvent(event)
 }
 
-func Events() []string {
+func Events() map[string]string {
 	return defaultTrigger.Events()
 }
 
